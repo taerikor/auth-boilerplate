@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-
+const port = 5000
 const bodyParser = require('body-parser')
 const { User } = require('./models/User')
 const mongoose = require('mongoose');
@@ -37,8 +37,6 @@ app.post('/api/users/register', (req, res) => {
 })
 
 app.post('/api/users/login', (req, res) => {
-    const array = [];
-    array.map()
     // 요청된 이메일을 데이터베이스에서 았는지 찾는다.
     User.findOne({ email : req.body.email }, (err, user) => {
         if(!user){
@@ -95,7 +93,6 @@ app.get('/api/users/logout', auth, (req, res) => {
 
 });
 
-const port = 5000
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
