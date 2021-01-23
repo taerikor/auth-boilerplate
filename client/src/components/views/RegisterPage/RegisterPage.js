@@ -2,6 +2,23 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { registerUser } from '../../../_actions/user_action';
 import { withRouter } from 'react-router-dom'
+import { Form, Input, Button, Checkbox } from 'antd';
+
+const layout = {
+  labelCol: {
+    span: 8,
+  },
+  wrapperCol: {
+    span: 16,
+  },
+};
+const tailLayout = {
+  wrapperCol: {
+    offset: 8,
+    span: 16,
+  },
+};
+
 
 function RegisterPage({history}) {
 
@@ -27,8 +44,7 @@ function RegisterPage({history}) {
         }
     }
 
-    const onSubmit = e => {
-        e.preventDefault();
+    const onSubmit = () => {
         if(password !== confirmPassword){
             return alert('Please check confirm password')
         }
@@ -53,21 +69,60 @@ function RegisterPage({history}) {
             display: 'flex', justifyContent: 'center' , alignItems: 'center',
             width: '100%', height: '100vh'
         }}>
-            <form onSubmit={onSubmit} style={{
-                display: 'flex', flexDirection: 'column' }}>
-                <label>Name</label>
-                <input name='name' value={name} type='text'  onChange={onChange}/>
-                <label>Email</label>
-                <input name='email' value={email} type='email' onChange={onChange}/>
-                <label>Password</label>
-                <input name='password' value={password} type='password'  onChange={onChange}/>
-                <label>Confirm Password</label>
-                <input name='confirmPassword' value={confirmPassword} type='password'  onChange={onChange}/>
-                <br />
-                <button>
-                    Register
-                </button>
-            </form>
+             <Form {...layout}
+          name="basic"
+          initialValues={{remember: true,}}
+          onFinish={onSubmit} >
+              <Form.Item
+                  label="Name"
+                  name="name"
+                  rules={[
+                      {
+                          required: true,
+                          message: 'Please input your Name!',
+                      },
+                         ]}>
+              <Input name='name' value={name} type='text' onChange={onChange}/>
+              </Form.Item>
+              <Form.Item
+                  label="Email"
+                  name="email"
+                  rules={[
+                      {
+                          required: true,
+                          message: 'Please input your Email!',
+                      },
+                         ]}>
+              <Input name='email' value={email} type='email' onChange={onChange}/>
+              </Form.Item>
+              <Form.Item
+                  label="Password"
+                  name="password"
+                  rules={[
+                  {
+                      required: true,
+                      message: 'Please input your password!',
+                  },
+                         ]}>
+              <Input.Password name='password' value={password} type='password'  onChange={onChange}/>
+               </Form.Item>
+              <Form.Item
+                  label="Confirm"
+                  name="confirm password"
+                  rules={[
+                  {
+                      required: true,
+                      message: 'Please input your Confirm Password!',
+                  },
+                         ]}>
+              <Input.Password name='confirmPassword' value={confirmPassword} type='password'  onChange={onChange}/>
+               </Form.Item>
+              <Form.Item {...tailLayout}>
+                  <Button type="primary" htmlType="submit">
+                  Register
+                  </Button>
+              </Form.Item>
+              </Form>
         </div>
     )
 }
