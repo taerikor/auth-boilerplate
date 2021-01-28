@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const saltRound = 10
 const jwt = require('jsonwebtoken');
+const moment = require("moment");
 
 
 const userSchema = mongoose.Schema({
@@ -36,7 +37,7 @@ const userSchema = mongoose.Schema({
 })
 userSchema.pre('save', function( next ) {
     //유저 정보가 서버로 저장되기 전
-    var user = this;
+    let user = this;
     if(user.isModified('password')){
         // 비밀번호 암호화
         bcrypt.genSalt(saltRound, function(err, salt) {
@@ -63,9 +64,12 @@ userSchema.methods.comparePassword = function(plainPassword, callback){
 }
 
 userSchema.methods.generateToken = function(callback) {
-    var user = this;
+    let user = this;
     // jsonwebtoken을 이용하여 token 생성
-    var token = jwt.sign(user._id.toHexString(), 'secretToken')
+    let token = jwt.sign(user._id.toHexString(), 'secretToken')
+    let oneHour = moment().add(1, 'hour').valueOf();
+
+    user.tokenExp = oneHour;
 
     user.token = token;
     user.save(function(err, user) {
@@ -75,7 +79,7 @@ userSchema.methods.generateToken = function(callback) {
 }
 
 userSchema.statics.findByToken = function( token, cb ){
-    var user = this;
+    let user = this;
 
     // 토큰을 decode 한다
     jwt.verify(token, 'secretToken', function(err, decoded){

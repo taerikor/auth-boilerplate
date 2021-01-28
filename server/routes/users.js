@@ -34,6 +34,7 @@ Router.post('/login', (req, res) => {
             // 비밀번호까지 맞다면 토큰을 생성하기
             user.generateToken((err, user) => {
                 if(err) return res.status(400).send(err);
+                res.cookie("w_authExp", user.tokenExp);
                 
                 // 토큰을 저장 (쿠키, 로컬스토리지 중 쿠키)
                 res.cookie("x_auth", user.token)
@@ -62,7 +63,7 @@ Router.get('/auth', auth,(req, res) => {
 Router.get('/logout', auth, (req, res) => {
     
     User.findOneAndUpdate({ _id: req.user._id }, 
-        { token: "" }
+        { token: "", tokenExp: ""  }
         , (err, user) => {
             if(err) return res.json({ success: false, err });
             return res.status(200).send({

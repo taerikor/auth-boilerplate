@@ -1,20 +1,26 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
+
 const bodyParser = require('body-parser')
-const mongoose = require('mongoose');
-const config = require('./config/key');
 const cookieParser = require('cookie-parser')
-const userRouter = require('./routes/users')
+
+const config = require('./config/key');
+
+
+const mongoose = require('mongoose');
+mongoose.connect(config.mongoURI, {
+  useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
+}).then(() => console.log('mongoDB Connected'))
+.catch((err) => console.log(err))
+
+app.use(cors())
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 app.use(cookieParser());
 
-
-mongoose.connect(config.mongoURI, {
-    useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false
-}).then(() => console.log('mongoDB Connected'))
-.catch((err) => console.log(err))
+const userRouter = require('./routes/users')
 
 app.use('/api/users', userRouter)
 

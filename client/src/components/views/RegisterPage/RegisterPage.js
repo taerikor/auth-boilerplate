@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import moment from "moment";
 import { useDispatch } from 'react-redux'
 import { registerUser } from '../../../_actions/user_action';
 import { withRouter } from 'react-router-dom'
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button } from 'antd';
 
 const layout = {
   labelCol: {
@@ -52,7 +53,8 @@ function RegisterPage({history}) {
         let body = {
             email,
             password,
-            name
+            name,
+            image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
         }
         dispatch(registerUser(body))
         .then(res => {

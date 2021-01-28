@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { loginUser } from '../../../_actions/user_action';
 import { withRouter } from 'react-router-dom'
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button } from 'antd';
 const layout = {
   labelCol: {
     span: 8,
@@ -42,6 +42,7 @@ function LoginPage({history}) {
         dispatch(loginUser(body))
         .then(res => {
             if(res.payload.loginSuccess){
+                window.localStorage.setItem('userId', res.payload.userId);
                 history.push('/')
             } else {
                 alert('Error')
