@@ -3,21 +3,21 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-import { Layout, Menu } from 'antd';
+import { Layout, Menu,Dropdown } from 'antd';
 
 const { Header } = Layout;
 
 
 function NavBar({history}) {
     const [isAuth,setIsAuth] = useState(false)
-    const [name,setName] = useState('')
+    const [userImage,setUserImage] = useState('')
     const state = useSelector(res => res?.user);
     
 
     useEffect(() => {
         if(state.userData?.isAuth){
             setIsAuth(true)
-            setName(state.userData.name)
+            setUserImage(state.userData.image)
         }else{
             setIsAuth(false)
         }
@@ -35,23 +35,32 @@ function NavBar({history}) {
              })
     }
 
+    const menu = (
+        <Menu >
+        <Menu.Item key="0"  >
+            <a href='/profile/edit' >Edit</a>
+        </Menu.Item>
+        <hr />
+        <Menu.Item key="1"  onClick={onClick}>
+            <span>Logout</span>
+        </Menu.Item>
+        </Menu>
+    )
+
+    
+
     return (
         <Layout>
             <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
       <div className="logo" />
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-        <Menu.Item key="1"><Link to='/' >LOGO</Link></Menu.Item>
-        <Menu.Item key="2"><Link to='/' >HOME</Link></Menu.Item>
-        <Menu.Item key="3"><Link to='/' >ABOUT</Link></Menu.Item>
+      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+        <Menu.Item style={{float: 'left'}} key="1"><Link to='/' style={{display:'flex',alignItems:'center'}} >LOGO</Link></Menu.Item>
         {isAuth?
-        <>
-                <Menu.Item key="5" style={{float: 'right'}} onClick={onClick}>
-                    <span>LOGOUT</span>
-                </Menu.Item>
-                <Menu.Item key="4" style={{float: 'right'}}>
-                    <span>{name}</span>
-                </Menu.Item>
-                </>
+            <Dropdown  overlay={menu} trigger={['click']}>
+                <a style={{float: 'right',marginLeft:'30px'}} className="ant-dropdown-link" onClick={e => e.preventDefault()} >
+                    <img src={userImage} alt='profile'  style={{borderRadius:'50%',width:'2.5rem'}} />
+                </a>
+            </Dropdown>
                 :
                 <>
                 <Menu.Item key="4" style={{float: 'right'}}>

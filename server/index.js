@@ -20,9 +20,10 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 app.use(cookieParser());
 
-const userRouter = require('./routes/users')
 
-app.use('/api/users', userRouter)
+app.use('/api/users', require('./routes/users'))
+
+app.use('/uploads', express.static('uploads'));
 
 
 

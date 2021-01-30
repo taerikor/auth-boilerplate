@@ -2,9 +2,10 @@ import App from './components/App';
 import 'antd/dist/antd.css'
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import Reducer from './_reducers'
 import { applyMiddleware, createStore } from 'redux'
 import { Provider } from 'react-redux'
-import Reducer from './_reducers'
 import promiseMiddleware from 'redux-promise'
 import reduxThunk from 'redux-thunk'
 
