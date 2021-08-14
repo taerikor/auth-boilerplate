@@ -1,4 +1,4 @@
-# Boiler Plate
+# Auth Boiler Plate
 
 User Authentication boiler plate
 
