@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "back": "nodemon index.js"
   },
   "author": "taeri",
   "license": "ISC",
@@ -12,5 +13,7 @@
     "express": "^4.17.1",
     "mongoose": "^6.0.12"
   },
-  "devDependencies": {}
+  "devDependencies": {   
+    "nodemon": "^2.0.14"
+  }
 }
