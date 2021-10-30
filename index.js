@@ -6,6 +6,7 @@ const config = require("./config/key");
 const cookieParser = require("cookie-parser");
 
 const { User } = require("./models/User");
+const { auth } = require("./middleware/auth");
 
 mongoose
   .connect(config.mongoURL)
@@ -19,7 +20,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hello World!!!");
 });
-app.post("/register", (req, res) => {
+app.post("/api/users/register", (req, res) => {
   const user = new User(req.body);
 
   user.save((err, doc) => {
@@ -30,7 +31,7 @@ app.post("/register", (req, res) => {
   });
 });
 
-app.post("/login", (req, res) => {
+app.post("/api/users/login", (req, res) => {
   // 이메일이 있는지 확인
   User.findOne({ email: req.body.email }, (err, doc) => {
     if (!doc) return res.json({ success: false, message: "not found email" });
@@ -47,6 +48,26 @@ app.post("/login", (req, res) => {
           .json({ success: true, userId: user._id });
       });
     });
+  });
+});
+
+app.get("/api/users/auth", auth, (req, res) => {
+  res.status(200).json({
+    _id: req.user._id,
+    isAdmin: req.user.role === 0 ? false : true,
+    isAuth: true,
+    email: req.user.email,
+    name: req.user.name,
+    lastname: req.user.lastname,
+    role: req.user.role,
+    image: req.user.image,
+  });
+});
+
+app.get("/api/users/logout", auth, (req, res) => {
+  User.findByIdAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).json({ success: true });
   });
 });
 
