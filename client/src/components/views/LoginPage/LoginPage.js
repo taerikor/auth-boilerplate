@@ -16,11 +16,11 @@ const LoginPage = () => {
   const history = useHistory();
 
   const onInputChange = (event) => {
-    const { type } = event.target;
+    const { name } = event.target;
     const { value } = event.target;
-    if (type === "email") {
+    if (name === "email") {
       setEmail(value);
-    } else if (type === "password") {
+    } else if (name === "password") {
       setPassword(value);
     }
   };
@@ -37,8 +37,15 @@ const LoginPage = () => {
   };
   return (
     <Form onSubmit={onSubmit}>
-      <Input type="email" onChange={onInputChange} value={email} />
-      <Input type="password" onChange={onInputChange} value={password} />
+      <label>email</label>
+      <Input name="email" type="email" onChange={onInputChange} value={email} />
+      <label>password</label>
+      <Input
+        name="password"
+        type="password"
+        onChange={onInputChange}
+        value={password}
+      />
       <Input type="submit" value="Submit" />
     </Form>
   );
