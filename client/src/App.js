@@ -4,14 +4,15 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LandingPage from "./components/views/LandingPage/LandingPage";
 import LoginPage from "./components/views/LoginPage/LoginPage";
 import RegisterPage from "./components/views/RegisterPage/RegisterPage";
+import Auth from "./hoc/auth";
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/" component={LandingPage} exact />
-        <Route path="/login" component={LoginPage} exact />
-        <Route path="/register" component={RegisterPage} exact />
+        <Route path="/" component={Auth(LandingPage, null)} exact />
+        <Route path="/login" component={Auth(LoginPage, false)} exact />
+        <Route path="/register" component={Auth(RegisterPage, false)} exact />
       </Switch>
     </Router>
   );
