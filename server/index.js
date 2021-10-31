@@ -31,10 +31,6 @@ app.post("/api/users/register", (req, res) => {
   });
 });
 
-app.get("/api/hello", (req, res) => {
-  res.send("hello im in back!");
-});
-
 app.post("/api/users/login", (req, res) => {
   // 이메일이 있는지 확인
   User.findOne({ email: req.body.email }, (err, doc) => {
