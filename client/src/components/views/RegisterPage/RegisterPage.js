@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { registerUser } from "../../../_actions/user_action";
+import {
+  Form,
+  Input,
+  Link,
+  LinkWrapper,
+  Submit,
+  Title,
+} from "../LoginPage/LoginPage";
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-const Input = styled.input``;
 const RegisterPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -47,25 +50,39 @@ const RegisterPage = () => {
   };
   return (
     <Form onSubmit={onSubmit}>
-      <label>name</label>
-      <Input name="name" type="text" onChange={onInputChange} value={name} />
-      <label>email</label>
-      <Input name="email" type="email" onChange={onInputChange} value={email} />
-      <label>password</label>
+      <Title>REGISTER</Title>
       <Input
+        placeholder="Name"
+        name="name"
+        type="text"
+        onChange={onInputChange}
+        value={name}
+      />
+      <Input
+        placeholder="Email"
+        name="email"
+        type="email"
+        onChange={onInputChange}
+        value={email}
+      />
+      <Input
+        placeholder="Password"
         name="password"
         type="password"
         onChange={onInputChange}
         value={password}
       />
-      <label>Confirm Password</label>
       <Input
+        placeholder="Confirm"
         name="confirmPassword"
         type="password"
         onChange={onInputChange}
         value={confirmPassword}
       />
-      <Input type="submit" value="Submit" />
+      <Link href="/login">
+        <LinkWrapper>Login</LinkWrapper>
+      </Link>
+      <Submit type="submit" value="Submit" />
     </Form>
   );
 };
