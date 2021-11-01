@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import styled, { css } from "styled-components";
 import { registerUser } from "../../../_actions/user_action";
 import {
   Form,

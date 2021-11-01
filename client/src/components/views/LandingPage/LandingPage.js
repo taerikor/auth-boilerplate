@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Layout from "../../Layout/Layout";
+import { Title } from "../LoginPage/LoginPage";
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,7 +15,7 @@ const LandingPage = () => {
   return (
     <Layout>
       <Wrapper>
-        <p>Hello!</p>
+        <Title>Hello!</Title>
       </Wrapper>
     </Layout>
   );

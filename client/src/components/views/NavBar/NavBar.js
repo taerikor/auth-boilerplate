@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { useHistory } from "react-router";
 import { logoutUser } from "../../../_actions/user_action";
 const Wrapper = styled.nav`
   height: 50px;
@@ -41,25 +42,38 @@ const Button = styled.div`
 `;
 const NavBar = () => {
   const user = useSelector((state) => state.user);
+  const history = useHistory();
   const dispatch = useDispatch();
   const onClick = () => {
-    dispatch(logoutUser());
+    dispatch(logoutUser()).then((res) => {
+      if (res.payload.success) {
+        history.push("/login");
+      } else {
+        alert("Logout error");
+      }
+    });
   };
   return (
     <Wrapper>
       <Logo href="/">LOGO</Logo>
       <ButtonWrapper>
-        {user.userData && user.userData.isAuth ? (
-          <Button onClick={onClick}>Logout</Button>
-        ) : (
+        {user.userData ? (
           <>
-            <Link href="/login">
-              <Button>SIGN IN</Button>
-            </Link>
-            <Link href="/register">
-              <Button>SIGN UP</Button>
-            </Link>
+            {user.userData.isAuth ? (
+              <Button onClick={onClick}>Logout</Button>
+            ) : (
+              <>
+                <Link href="/login">
+                  <Button>SIGN IN</Button>
+                </Link>
+                <Link href="/register">
+                  <Button>SIGN UP</Button>
+                </Link>
+              </>
+            )}
           </>
+        ) : (
+          <></>
         )}
       </ButtonWrapper>
     </Wrapper>
